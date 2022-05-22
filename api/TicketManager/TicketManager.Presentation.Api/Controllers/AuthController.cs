@@ -6,7 +6,7 @@ namespace TicketManager.Presentation.Api.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseApiController
     {
         private readonly UserAccessService _userAccessService;
 
@@ -16,17 +16,9 @@ namespace TicketManager.Presentation.Api.Controllers
         }
 
         [HttpPost("login")]
-
         public async Task<IActionResult> SignIn(SignInCommand request, CancellationToken cancellationToken)
         {
-            var result = await _userAccessService.SignInAsync(request);
-
-            if (!result.IsSuccess)
-            {
-                return BadRequest(new { Message = result.Exception.Message });
-            }
-
-            return Ok(result.Value);
+            return HandleResult(await _userAccessService.SignInAsync(request), httpStatusCode: 201);
         }
     }
 }
