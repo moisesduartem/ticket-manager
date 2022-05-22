@@ -10,6 +10,7 @@ namespace TicketManager.Infra.Database.EntityConfiguration
             base.Configure(builder);
 
             builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
+            builder.HasMany(x => x.Tickets).WithOne(x => x.Category).HasForeignKey(x => x.CategoryId);
         }
     }
 }

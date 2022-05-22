@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TicketManager.Infra.Database;
-using TicketManager.Shared.Infra;
-using TicketManager.Shared.Options;
 
 namespace TicketManager.IoC.Configuration
 {
@@ -19,9 +18,8 @@ namespace TicketManager.IoC.Configuration
 
         public void ConfigureDatabase()
         {
-            Services.Configure<ConnectionStringsOptions>((_) => Configuration.GetSection("ConnectionStrings"));
-            Services.AddDbContext<ApplicationDbContext>();
-            Services.AddSingleton<IDatabaseContext>(provider => provider.GetService<ApplicationDbContext>());
+            string connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
         }
     }
 }
