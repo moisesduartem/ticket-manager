@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TicketManager.Infra.Database;
+using TicketManager.Infra.Security.Extensions;
 
 namespace TicketManager.IoC.Configuration
 {
@@ -14,6 +15,12 @@ namespace TicketManager.IoC.Configuration
         {
             Configuration = configuration;
             Services = services;
+        }
+
+        public void ConfigureAuthentication()
+        {
+            string jwtSecret = Configuration["Jwt:Secret"];
+            Services.AddJsonWebTokenConfiguration(jwtSecret);
         }
 
         public void ConfigureDatabase()
