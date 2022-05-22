@@ -3,6 +3,7 @@
     public class Category : BaseEntity
     {
         public string Name { get; private set; }
+        public List<Ticket> Tickets { get; set; }
 
         public Category(string name)
         {

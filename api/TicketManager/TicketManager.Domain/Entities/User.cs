@@ -8,6 +8,8 @@ namespace TicketManager.Domain.Entities
         public string Hash { get; private set; }
         public string Salt { get; private set; }
         public UserRole Role { get; private set; }
+        public List<Ticket> Tickets { get; set; }
+        public List<Comment> Comments { get; set; }
 
         public bool IsAdmin => Role is UserRole.Admin;
 

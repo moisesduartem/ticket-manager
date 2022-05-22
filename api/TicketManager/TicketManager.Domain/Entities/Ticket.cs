@@ -10,15 +10,15 @@
 
         public User Author { get; set; }
         public Category Category { get; set; }
-        public IEnumerable<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
 
         public Ticket(string title, int authorId, int categoryId, string description = "")
         {
             Title = title;
             AuthorId = authorId;
             CategoryId = categoryId;
-            IsSolved = false;
             Description = description;
+            IsSolved = false;
         }
 
         public Ticket(int id, string title, string description, int authorId, int categoryId, bool isSolved)
