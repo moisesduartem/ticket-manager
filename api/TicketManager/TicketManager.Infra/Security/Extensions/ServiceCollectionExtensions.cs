@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TicketManager.Domain.Services;
 using TicketManager.Infra.Security.Services;
 
 namespace TicketManager.Infra.Security.Extensions

@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TicketManager.Application.Services;
+using TicketManager.Domain.Repositories;
 using TicketManager.Infra.Database;
+using TicketManager.Infra.Database.Repositories;
 using TicketManager.Infra.Security.Extensions;
 
 namespace TicketManager.IoC.Configuration
@@ -27,6 +30,22 @@ namespace TicketManager.IoC.Configuration
         {
             string connectionString = Configuration["ConnectionStrings:DefaultConnection"];
             Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+        }
+
+        public void ConfigureDependencyInjection()
+        {
+            #region Data Access Layer
+
+            Services.AddScoped<IUserRepository, UserRepository>();
+
+            #endregion
+
+            #region Application Layer
+
+            Services.AddScoped<UserAccessService>();
+
+            #endregion
+
         }
     }
 }

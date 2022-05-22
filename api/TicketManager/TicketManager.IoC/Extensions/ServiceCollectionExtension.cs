@@ -9,8 +9,9 @@ namespace TicketManager.IoC.Extensions
         public static void ConfigureIoC(this IServiceCollection services, ConfigurationManager configuration)
         {
             var dependencyResolver = new DependencyResolver(configuration, services);
-            dependencyResolver.ConfigureAuthentication();
             dependencyResolver.ConfigureDatabase();
+            dependencyResolver.ConfigureDependencyInjection();
+            dependencyResolver.ConfigureAuthentication();
         }
     }
 }

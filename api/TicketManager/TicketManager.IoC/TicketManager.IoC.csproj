@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TicketManager.Application\TicketManager.Application.csproj" />
     <ProjectReference Include="..\TicketManager.Infra\TicketManager.Infra.csproj" />
     <ProjectReference Include="..\TicketManager.Shared\TicketManager.Shared.csproj" />
   </ItemGroup>
