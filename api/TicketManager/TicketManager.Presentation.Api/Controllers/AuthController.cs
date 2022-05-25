@@ -17,8 +17,6 @@ namespace TicketManager.Presentation.Api.Controllers
 
         [HttpPost("login")]
         public async Task<IActionResult> SignIn(SignInCommand request, CancellationToken cancellationToken)
-        {
-            return HandleResult(await _userAccessService.SignInAsync(request), httpStatusCode: 201);
-        }
+            => HandleResult(await _userAccessService.SignInAsync(request), httpStatusCode: 201);
     }
 }

@@ -2,10 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TicketManager.Application.Services;
+using TicketManager.Application.Utilities;
 using TicketManager.Domain.Repositories;
 using TicketManager.Infra.Database;
 using TicketManager.Infra.Database.Repositories;
 using TicketManager.Infra.Security.Extensions;
+using TicketManager.Infra.Utilities;
 
 namespace TicketManager.IoC.Configuration
 {
@@ -43,6 +45,8 @@ namespace TicketManager.IoC.Configuration
             #region Application Layer
 
             Services.AddScoped<UserAccessService>();
+            
+            Services.AddScoped<IBcrypt, Bcrypt>();
 
             #endregion
 
