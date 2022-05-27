@@ -1,11 +1,13 @@
 import React from 'react';
-import Login from '../../features/login';
+import { Login } from '../../features/login';
 import './styles.css';
 
 function App() {
   return (
-    <Login />
+    <div id="app">
+      <Login />
+    </div>
   );
 }
 
-export default App;
+export { App };

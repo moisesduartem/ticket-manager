@@ -2,3 +2,7 @@ body {
   background-color: var(--dark);
   color: var(--light);
 }
+
+#app {
+  height: 100vh;
+}

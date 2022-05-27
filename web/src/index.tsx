@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import App from './containers/app';
+import { App } from './containers/app';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 

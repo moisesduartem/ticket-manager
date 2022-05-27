@@ -1,0 +1,19 @@
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.login__form-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    margin: 35px auto;
+}
+
+.login__form-card div {
+    margin-bottom: 6px;
+    width: 100%;
+}
