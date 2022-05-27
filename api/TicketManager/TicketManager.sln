@@ -19,13 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - IoC", "4 - IoC", "{4377
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManager.IoC", "TicketManager.IoC\TicketManager.IoC.csproj", "{75BC823E-CBD5-4DAA-948F-BA0F4D30809D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Presentation", "6 - Presentation", "{C575683B-17E8-49CC-B64E-F63EC0658439}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Presentation", "5 - Presentation", "{C575683B-17E8-49CC-B64E-F63EC0658439}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManager.Presentation.Api", "TicketManager.Presentation.Api\TicketManager.Presentation.Api.csproj", "{A5DE5129-CD22-4E8E-982E-5D3C7EF03F45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Shared", "0 - Shared", "{DA4DD9FF-3368-4DF4-B450-51F841949E8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketManager.Shared", "TicketManager.Shared\TicketManager.Shared.csproj", "{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManager.Shared", "TicketManager.Shared\TicketManager.Shared.csproj", "{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
