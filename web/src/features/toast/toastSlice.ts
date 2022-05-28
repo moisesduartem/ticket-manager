@@ -17,8 +17,12 @@ export const toastSlice = createSlice({
   name: 'toast',
   initialState,
   reducers: {
-    open: (state) => ({
-      ...state, open: true, color: state.color, message: state.message,
+    notifyGenericError: (state) => ({
+      ...initialState,
+      open: true,
+    }),
+    open: (state, action) => ({
+      ...state, open: true, color: action.payload.color, message: action.payload.message,
     }),
     close: (state) => ({
       ...state, open: false,
@@ -26,6 +30,6 @@ export const toastSlice = createSlice({
   },
 });
 
-export const { open, close } = toastSlice.actions;
+export const toastActions = toastSlice.actions;
 
 export const { reducer: toastReducer } = toastSlice;

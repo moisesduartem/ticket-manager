@@ -13,7 +13,7 @@
     margin: 35px auto;
 }
 
-.login__form-card div {
+.login__form-card__group div {
     margin-bottom: 6px;
     width: 100%;
 }

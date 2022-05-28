@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { close } from './toastSlice';
+import { toastActions } from './toastSlice';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>((
   props,
@@ -14,7 +14,7 @@ function Toast() {
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
-    dispatch(close());
+    dispatch(toastActions.close());
   };
 
   return (
