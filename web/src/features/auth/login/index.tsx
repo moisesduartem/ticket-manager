@@ -28,11 +28,11 @@ function Login() {
     try {
       setLoading(true);
       await api.post('auth/login', body);
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.code === '401') {
-          dispatch(toastActions.open({ color: 'error', message: err.message }));
-        }
+    } catch (err: any) {
+      if (err.response?.data.message) {
+        const { message } = err.response.data;
+        dispatch(toastActions.open({ color: 'error', message }));
+        return;
       }
       dispatch(toastActions.notifyGenericError());
     } finally {

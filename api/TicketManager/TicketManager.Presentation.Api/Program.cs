@@ -4,7 +4,7 @@ using TicketManager.Presentation.Api.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureIoC(builder.Configuration);
-builder.Services.AddControllers().AddNewtonsoftJson(options 
+builder.Services.AddControllers().AddNewtonsoftJson(options
     => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +17,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(options => options
+        .WithOrigins(builder.Configuration.GetSection("Frontend:BaseUrl").Value)
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
