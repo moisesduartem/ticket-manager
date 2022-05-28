@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import { SxProps, Theme } from '@mui/material';
 
 export interface BasicCardProps {
-  children?: any;
+  children?: React.ReactNode;
   className?: string;
   sx?: SxProps<Theme>;
 }
