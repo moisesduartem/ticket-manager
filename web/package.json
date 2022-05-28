@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@hookform/resolvers": "^2.8.10",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.1",
     "@reduxjs/toolkit": "^1.8.2",
@@ -21,7 +22,8 @@
     "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "typescript": "^4.7.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

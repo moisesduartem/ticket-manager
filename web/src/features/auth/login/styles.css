@@ -5,7 +5,7 @@
     height: 100%;
 }
 
-.login__form-card {
+.login__form-card form {
     display: flex;
     flex-direction: column;
     justify-content: center;
