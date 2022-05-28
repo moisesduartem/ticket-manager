@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AxiosError } from 'axios';
 import { LoadingButton } from '@mui/lab';
 import { BasicCard } from '../../../components/basic-card';
 import './styles.css';
@@ -11,6 +10,9 @@ import { SignInRequest } from './requests';
 import { api } from '../../../services/api';
 import { useAppDispatch } from '../../../store/hooks';
 import { toastActions } from '../../toast/toastSlice';
+import { LoginResponse } from '../../../services/api/auth/responses';
+import { authActions } from '../authSlice';
+import { UserRole } from '../../../domain/enums/user-role';
 
 const schema = yup.object({
   email: yup.string().label('E-mail').required().email(),
@@ -27,7 +29,11 @@ function Login() {
   const onSubmit = async (body: SignInRequest) => {
     try {
       setLoading(true);
-      await api.post('auth/login', body);
+      const { data } = await api.post<LoginResponse>('auth/login', body);
+      data.user = {
+        id: 1, name: 'Jim', email: 'jim@email.com', role: UserRole.regular,
+      };
+      dispatch(authActions.signIn(data));
     } catch (err: any) {
       if (err.response?.data.message) {
         const { message } = err.response.data;
