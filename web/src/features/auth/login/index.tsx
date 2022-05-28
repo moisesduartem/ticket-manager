@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, TextField } from '@mui/material';
-import { BasicCard } from '../../components/basic-card';
+import { BasicCard } from '../../../components/basic-card';
 import './styles.css';
 
 function Login() {

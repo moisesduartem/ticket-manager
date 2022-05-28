@@ -1,5 +1,5 @@
 import React from 'react';
-import { Login } from '../../features/login';
+import { Login } from '../../features/auth/login';
 import './styles.css';
 
 function App() {
