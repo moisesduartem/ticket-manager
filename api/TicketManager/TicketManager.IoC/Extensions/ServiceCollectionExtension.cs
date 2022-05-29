@@ -13,6 +13,7 @@ namespace TicketManager.IoC.Extensions
             dependencyResolver.ConfigureDependencyInjection();
             dependencyResolver.ConfigureAuthentication();
             dependencyResolver.ConfigureAutoMapper();
+            dependencyResolver.ConfigureFluentValidation();
         }
     }
 }

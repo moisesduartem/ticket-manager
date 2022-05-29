@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TicketManager.Application.Services;
 using TicketManager.Application.Utilities;
+using TicketManager.Application.Validators;
 using TicketManager.Domain.Repositories;
 using TicketManager.Infra.Database;
 using TicketManager.Infra.Database.Repositories;
@@ -55,6 +57,11 @@ namespace TicketManager.IoC.Configuration
         public void ConfigureAutoMapper()
         {
             Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        }
+
+        public void ConfigureFluentValidation()
+        {
+            Services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SignInCommandValidator>());
         }
     }
 }
