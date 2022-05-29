@@ -51,5 +51,10 @@ namespace TicketManager.IoC.Configuration
             #endregion
 
         }
+
+        public void ConfigureAutoMapper()
+        {
+            Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        }
     }
 }

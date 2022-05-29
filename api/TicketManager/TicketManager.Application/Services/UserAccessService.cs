@@ -1,4 +1,5 @@
-﻿using OperationResult;
+﻿using AutoMapper;
+using OperationResult;
 using TicketManager.Application.Exceptions;
 using TicketManager.Application.Utilities;
 using TicketManager.Domain.Entities;
@@ -13,12 +14,14 @@ namespace TicketManager.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IAuthTokenService _tokenService;
         private readonly IBcrypt _bcrypt;
+        private readonly IMapper _mapper;
 
-        public UserAccessService(IUserRepository userRepository, IAuthTokenService tokenService, IBcrypt bcrypt)
+        public UserAccessService(IUserRepository userRepository, IAuthTokenService tokenService, IBcrypt bcrypt, IMapper mapper)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _bcrypt = bcrypt;
+            _mapper = mapper;
         }
 
         public async Task<Result<SignInViewModel>> SignInAsync(SignInCommand command)
@@ -32,7 +35,9 @@ namespace TicketManager.Application.Services
 
             string token = _tokenService.GenerateFor(user);
 
-            return Result.Success(new SignInViewModel { Token = token });
+            var userDto = _mapper.Map<AuthUserViewModel>(user);
+
+            return Result.Success(new SignInViewModel { Token = token, User = userDto });
         }
 
         private bool HasValidPassword(User user, string password)
