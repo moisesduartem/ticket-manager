@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from '../../domain/entities/user';
+import { LocalStoragePath } from '../../infra/local-storage-path';
 
 export interface AuthState {
     isLogged: boolean;
@@ -17,12 +18,21 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signIn: (state, action) => ({
-      ...state,
-      isLogged: action.payload.user && action.payload.token,
-      user: action.payload.user,
-      token: action.payload.token,
-    }),
+    signIn: (state, action) => {
+      const data = action.payload;
+
+      if (data?.user && data?.token) {
+        localStorage.setItem(LocalStoragePath.token, data.token);
+        localStorage.setItem(LocalStoragePath.user, JSON.stringify(data.user));
+      }
+
+      return {
+        ...state,
+        isLogged: action.payload.user && action.payload.token,
+        user: action.payload.user,
+        token: action.payload.token,
+      };
+    },
   },
 });
 

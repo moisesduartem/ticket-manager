@@ -12,7 +12,6 @@ import { useAppDispatch } from '../../../store/hooks';
 import { toastActions } from '../../toast/toastSlice';
 import { LoginResponse } from '../../../services/api/auth/responses';
 import { authActions } from '../authSlice';
-import { UserRole } from '../../../domain/enums/user-role';
 
 const schema = yup.object({
   email: yup.string().label('E-mail').required().email(),
@@ -30,9 +29,6 @@ function Login() {
     try {
       setLoading(true);
       const { data } = await api.post<LoginResponse>('auth/login', body);
-      data.user = {
-        id: 1, name: 'Jim', email: 'jim@email.com', role: UserRole.regular,
-      };
       dispatch(authActions.signIn(data));
     } catch (err: any) {
       if (err.response?.data?.message) {
