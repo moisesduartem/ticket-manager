@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../../store/hooks';
 import { toastActions } from '../../toast/toastSlice';
 import { LoginResponse } from '../../../services/api/auth/responses';
 import { authActions } from '../authSlice';
+import { LocalStoragePath } from '../../../infra/local-storage-path';
 
 const schema = yup.object({
   email: yup.string().label('E-mail').required().email(),
@@ -25,10 +26,18 @@ function Login() {
   });
   const dispatch = useAppDispatch();
 
+  const saveAuthItems = (data: LoginResponse) => {
+    if (data.user && data.token) {
+      localStorage.setItem(LocalStoragePath.user, JSON.stringify(data.user));
+      localStorage.setItem(LocalStoragePath.token, data.token);
+    }
+  };
+
   const onSubmit = async (body: SignInRequest) => {
     try {
       setLoading(true);
       const { data } = await api.post<LoginResponse>('auth/login', body);
+      saveAuthItems(data);
       dispatch(authActions.signIn(data));
     } catch (err: any) {
       if (err.response?.data?.message) {

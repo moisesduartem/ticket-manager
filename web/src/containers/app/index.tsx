@@ -1,6 +1,7 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { Toast } from '../../features/toast';
-import { Login } from '../../features/auth/login';
+import { ApplicationRoutes } from '../routes';
 import './styles.css';
 
 function App() {
@@ -8,7 +9,9 @@ function App() {
     <>
       <Toast />
       <div id="app">
-        <Login />
+        <BrowserRouter>
+          <ApplicationRoutes />
+        </BrowserRouter>
       </div>
     </>
   );
