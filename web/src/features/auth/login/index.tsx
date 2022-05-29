@@ -35,12 +35,12 @@ function Login() {
       };
       dispatch(authActions.signIn(data));
     } catch (err: any) {
-      if (err.response?.data.message) {
+      if (err.response?.data?.message) {
         const { message } = err.response.data;
         dispatch(toastActions.open({ color: 'error', message }));
         return;
       }
-      dispatch(toastActions.notifyGenericError());
+      dispatch(toastActions.genericError());
     } finally {
       setLoading(false);
     }

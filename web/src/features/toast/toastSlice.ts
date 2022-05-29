@@ -17,7 +17,7 @@ export const toastSlice = createSlice({
   name: 'toast',
   initialState,
   reducers: {
-    notifyGenericError: (state) => ({
+    genericError: (state) => ({
       ...initialState,
       open: true,
     }),
