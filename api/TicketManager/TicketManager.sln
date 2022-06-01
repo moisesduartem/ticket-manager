@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Shared", "0 - Shared", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManager.Shared", "TicketManager.Shared\TicketManager.Shared.csproj", "{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketManager.Application.Tests", "TicketManager.Application.Tests\TicketManager.Application.Tests.csproj", "{09ECB471-CEE6-43D0-89B5-2C69ED681F73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09ECB471-CEE6-43D0-89B5-2C69ED681F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09ECB471-CEE6-43D0-89B5-2C69ED681F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09ECB471-CEE6-43D0-89B5-2C69ED681F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09ECB471-CEE6-43D0-89B5-2C69ED681F73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{75BC823E-CBD5-4DAA-948F-BA0F4D30809D} = {437782E1-FC42-44EB-8611-B79AF02E1B26}
 		{A5DE5129-CD22-4E8E-982E-5D3C7EF03F45} = {C575683B-17E8-49CC-B64E-F63EC0658439}
 		{0D85EFC8-897D-4418-A05D-FD9DD9DD3F92} = {DA4DD9FF-3368-4DF4-B450-51F841949E8A}
+		{09ECB471-CEE6-43D0-89B5-2C69ED681F73} = {B9E54257-5DCD-4508-942F-9604B73A2CE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C9C6416-79E7-4BC4-94A2-71025C70A159}
