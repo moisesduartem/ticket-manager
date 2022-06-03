@@ -1,7 +1,5 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,25 +8,26 @@ import ListItemText from '@mui/material/ListItemText';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Box } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { sidebarActions } from '../../../features/sidebar/sidebarSlice';
 
 function Sidebar() {
-  const [isOpen, setOpen] = React.useState(false);
-
-  const toggleDrawer = () => setOpen(!isOpen);
+  const { isOpen } = useAppSelector((state) => state.sidebar);
+  const dispatch = useAppDispatch();
+  const toggleSidebar = () => dispatch(sidebarActions.toggle());
 
   return (
     <div>
-      <Button onClick={toggleDrawer}>left</Button>
       <Drawer
         anchor="left"
         open={isOpen}
-        onClose={toggleDrawer}
+        onClick={toggleSidebar}
+        onKeyDown={toggleSidebar}
       >
         <Box
           sx={{ width: 250 }}
           role="presentation"
-          onClick={toggleDrawer}
-          onKeyDown={toggleDrawer}
         >
           <List>
             <ListItem disablePadding>
