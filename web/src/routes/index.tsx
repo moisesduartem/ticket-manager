@@ -4,18 +4,21 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import { authActions } from '../../features/auth/authSlice';
-import { Login } from '../../features/auth/login';
-import { TicketsList } from '../../features/tickets/list';
-import { LocalStoragePath } from '../../infra/local-storage-path';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { InternalStructure } from '../containers/internal-structure';
+import { authActions } from '../features/auth/authSlice';
+import { Login } from '../features/auth/login';
+import { TicketsList } from '../features/tickets/list';
+import { LocalStoragePath } from '../infra/local-storage-path';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 function ProtectedRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<TicketsList />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <InternalStructure>
+      <Routes>
+        <Route path="/" element={<TicketsList />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </InternalStructure>
   );
 }
 
