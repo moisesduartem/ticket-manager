@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Solution tools
+tools/
+
 # User-specific files
 *.rsuser
 *.suo
@@ -152,6 +155,7 @@ coverage*.info
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+*.coveragereport
 
 # NCrunch
 _NCrunch_*
