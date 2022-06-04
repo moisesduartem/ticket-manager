@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from '../../domain/entities/user';
-import { LocalStoragePath } from '../../infra/local-storage-path';
 
 export interface AuthState {
     isLogged: boolean;
@@ -23,6 +22,9 @@ export const authSlice = createSlice({
       isLogged: action.payload.user && action.payload.token,
       user: action.payload.user,
       token: action.payload.token,
+    }),
+    signOut: (state) => ({
+      ...initialState,
     }),
   },
 });

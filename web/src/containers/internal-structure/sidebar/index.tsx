@@ -11,11 +11,17 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { sidebarActions } from '../../../features/sidebar/sidebarSlice';
+import { authActions } from '../../../features/auth/authSlice';
 
 function Sidebar() {
   const { isOpen } = useAppSelector((state) => state.sidebar);
   const dispatch = useAppDispatch();
   const toggleSidebar = () => dispatch(sidebarActions.toggle());
+
+  const onClickToSignOut = () => {
+    localStorage.clear();
+    dispatch(authActions.signOut());
+  };
 
   return (
     <div>
@@ -47,7 +53,7 @@ function Sidebar() {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={onClickToSignOut}>
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>
