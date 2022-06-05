@@ -46,7 +46,8 @@ namespace TicketManager.IoC.Configuration
 
             #region Application Layer
 
-            Services.AddScoped<UserAccessService>();
+            Services.AddScoped<AuthService>();
+            Services.AddScoped<TicketsService>();
             
             Services.AddScoped<IBcrypt, Bcrypt>();
 

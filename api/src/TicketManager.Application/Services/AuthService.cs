@@ -9,14 +9,14 @@ using TicketManager.Shared.DTOs.UserAccess;
 
 namespace TicketManager.Application.Services
 {
-    public class UserAccessService
+    public class AuthService
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthTokenService _tokenService;
         private readonly IBcrypt _bcrypt;
         private readonly IMapper _mapper;
 
-        public UserAccessService(IUserRepository userRepository, IAuthTokenService tokenService, IBcrypt bcrypt, IMapper mapper)
+        public AuthService(IUserRepository userRepository, IAuthTokenService tokenService, IBcrypt bcrypt, IMapper mapper)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;

@@ -8,15 +8,15 @@ namespace TicketManager.Presentation.Api.Controllers
     [ApiController]
     public class AuthController : BaseApiController
     {
-        private readonly UserAccessService _userAccessService;
+        private readonly AuthService _authService;
 
-        public AuthController(UserAccessService userAccessService)
+        public AuthController(AuthService authService)
         {
-            _userAccessService = userAccessService;
+            _authService = authService;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> SignIn(SignInCommand request, CancellationToken cancellationToken)
-            => HandleResult(await _userAccessService.SignInAsync(request), httpStatusCode: 201);
+            => HandleResult(await _authService.SignInAsync(request), httpStatusCode: 201);
     }
 }
