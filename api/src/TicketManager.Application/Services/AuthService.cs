@@ -5,7 +5,7 @@ using TicketManager.Application.Utilities;
 using TicketManager.Domain.Entities;
 using TicketManager.Domain.Repositories;
 using TicketManager.Domain.Services;
-using TicketManager.Shared.DTOs.UserAccess;
+using TicketManager.Shared.DTOs.Auth;
 
 namespace TicketManager.Application.Services
 {

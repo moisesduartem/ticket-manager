@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TicketManager.Application.Services;
-using TicketManager.Shared.DTOs.UserAccess;
+using TicketManager.Shared.DTOs.Auth;
 
 namespace TicketManager.Presentation.Api.Controllers
 {

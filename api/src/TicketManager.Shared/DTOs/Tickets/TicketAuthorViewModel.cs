@@ -1,10 +1,9 @@
-﻿namespace TicketManager.Shared.DTOs.UserAccess
+﻿namespace TicketManager.Shared.DTOs.Tickets
 {
-    public class AuthUserViewModel
+    public class AuthorViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public int Role { get; set; }
     }
 }

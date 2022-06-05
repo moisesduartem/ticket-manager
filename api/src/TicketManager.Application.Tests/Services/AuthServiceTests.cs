@@ -7,7 +7,7 @@ using TicketManager.Domain.Entities;
 using TicketManager.Domain.Enums;
 using TicketManager.Domain.Repositories;
 using TicketManager.Domain.Services;
-using TicketManager.Shared.DTOs.UserAccess;
+using TicketManager.Shared.DTOs.Auth;
 using Xunit;
 
 namespace TicketManager.Application.Tests.Services

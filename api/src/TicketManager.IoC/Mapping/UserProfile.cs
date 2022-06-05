@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using TicketManager.Domain.Entities;
-using TicketManager.Shared.DTOs.UserAccess;
+using TicketManager.Shared.DTOs.Auth;
 
 namespace TicketManager.IoC.Mapping
 {
