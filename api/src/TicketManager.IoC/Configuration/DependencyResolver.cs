@@ -41,6 +41,7 @@ namespace TicketManager.IoC.Configuration
             #region Data Access Layer
 
             Services.AddScoped<IUserRepository, UserRepository>();
+            Services.AddScoped<ITicketsRepository, TicketsRepository>();
 
             #endregion
 
