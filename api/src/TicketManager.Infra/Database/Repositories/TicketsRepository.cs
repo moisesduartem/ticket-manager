@@ -15,7 +15,7 @@ namespace TicketManager.Infra.Database.Repositories
 
         public async Task<IEnumerable<Ticket>> FindAllAsync()
         {
-            var tickets = await _context.Tickets.AsNoTracking().ToListAsync();
+            var tickets = await _context.Tickets.AsNoTracking().Include(x => x.Author).Include(x => x.Category).ToListAsync();
             return tickets.AsEnumerable();
         }
     }
