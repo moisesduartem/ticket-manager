@@ -1,4 +1,4 @@
-﻿namespace TicketManager.Shared.DTOs.UserAccess
+﻿namespace TicketManager.Shared.DTOs.Auth
 {
     public class SignInCommand
     {

@@ -36,6 +36,53 @@ namespace TicketManager.Infra.Database
                     role: UserRole.Regular
                )
             );
+            
+            modelBuilder.Entity<Category>().HasData(
+                new Category(
+                    id: 1, 
+                    name: "Notebook"
+               ),
+                new Category(
+                    id: 2, 
+                    name: "Network"
+               ),new Category(
+                    id: 3, 
+                    name: "PC"
+               ),new Category(
+                    id: 4, 
+                    name: "Printer"
+               ),new Category(
+                    id: 5, 
+                    name: "Other"
+               )
+            );
+            
+            modelBuilder.Entity<Ticket>().HasData(
+                new Ticket(
+                    id: 1, 
+                    title: "My notebook is on fire!",
+                    description: "I don't what happened, but it started to flame from nothing",
+                    authorId: 1,
+                    categoryId: 1,
+                    isSolved: false
+               ),
+                new Ticket(
+                    id: 2, 
+                    title: "I'm without internet",
+                    description: "",
+                    authorId: 1,
+                    categoryId: 2,
+                    isSolved: false
+               ),
+                new Ticket(
+                    id: 3,
+                    title: "My printer isn't working",
+                    description: "",
+                    authorId: 2,
+                    categoryId: 4,
+                    isSolved: false
+               )
+            );
         }
 
         public DbSet<User> Users { get; set; }

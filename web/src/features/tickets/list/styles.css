@@ -1,0 +1,17 @@
+.tickets-list__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8rem;
+}
+
+.tickets-list__content__table {
+    width: 60%;
+}
+
+@media (max-width: 1360px) {
+
+    .tickets-list__content__table {
+        width: 100%;
+    }
+}

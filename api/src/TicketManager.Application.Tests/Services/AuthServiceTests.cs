@@ -7,26 +7,26 @@ using TicketManager.Domain.Entities;
 using TicketManager.Domain.Enums;
 using TicketManager.Domain.Repositories;
 using TicketManager.Domain.Services;
-using TicketManager.Shared.DTOs.UserAccess;
+using TicketManager.Shared.DTOs.Auth;
 using Xunit;
 
 namespace TicketManager.Application.Tests.Services
 {
-    public class UserAccessServiceTests
+    public class AuthServiceTests
     {
-        private readonly UserAccessService _sut;
+        private readonly AuthService _sut;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<IAuthTokenService> _authTokenService;
         private readonly Mock<IBcrypt> _bcrypt;
         private readonly Mock<IMapper> _mapper;
 
-        public UserAccessServiceTests()
+        public AuthServiceTests()
         {
             _userRepository = new Mock<IUserRepository>();
             _authTokenService = new Mock<IAuthTokenService>();
             _bcrypt = new Mock<IBcrypt>();
             _mapper = new Mock<IMapper>();
-            _sut = new UserAccessService(_userRepository.Object, _authTokenService.Object, _bcrypt.Object, _mapper.Object);
+            _sut = new AuthService(_userRepository.Object, _authTokenService.Object, _bcrypt.Object, _mapper.Object);
         }
 
         [Fact]

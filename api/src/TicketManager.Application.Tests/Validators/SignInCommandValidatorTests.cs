@@ -1,6 +1,6 @@
 ﻿using FluentValidation.TestHelper;
 using TicketManager.Application.Validators;
-using TicketManager.Shared.DTOs.UserAccess;
+using TicketManager.Shared.DTOs.Auth;
 using Xunit;
 
 namespace TicketManager.Application.Tests.Validators
