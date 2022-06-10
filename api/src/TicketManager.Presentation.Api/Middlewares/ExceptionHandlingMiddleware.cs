@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using TicketManager.Shared.DTOs.Tickets;
 
 namespace TicketManager.Presentation.Api.Middlewares
 {

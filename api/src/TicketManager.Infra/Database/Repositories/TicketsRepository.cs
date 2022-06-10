@@ -13,6 +13,12 @@ namespace TicketManager.Infra.Database.Repositories
             _context = context;
         }
 
+        public async Task CreateOneAsync(Ticket ticket, CancellationToken cancellationToken)
+        {
+            _context.Tickets.Add(ticket);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<Ticket>> FindAllAsync()
         {
             var tickets = await _context.Tickets.AsNoTracking().Include(x => x.Author).Include(x => x.Category).ToListAsync();

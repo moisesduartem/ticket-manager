@@ -63,7 +63,7 @@ namespace TicketManager.IoC.Configuration
 
         public void ConfigureFluentValidation()
         {
-            Services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SignInCommandValidator>());
+            Services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SignInRequestValidator>());
         }
     }
 }

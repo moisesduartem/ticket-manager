@@ -8,6 +8,8 @@ namespace TicketManager.IoC.Mapping
     {
         public TicketProfile()
         {
+            CreateMap<CreateTicketRequest, Ticket>();
+
             CreateMap<Ticket, TicketViewModel>();
             CreateMap<User, AuthorViewModel>();
             CreateMap<Category, CategoryViewModel>();

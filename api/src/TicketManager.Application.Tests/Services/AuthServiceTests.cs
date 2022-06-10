@@ -41,8 +41,8 @@ namespace TicketManager.Application.Tests.Services
             _authTokenService.Setup(x => x.GenerateFor(It.IsAny<User>())).Returns(expectedToken);
             _mapper.Setup(x => x.Map<AuthUserViewModel>(It.IsAny<User>())).Returns(userDto);
 
-            var command = new SignInCommand { Email = "user@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(command);
+            var request = new SignInRequest { Email = "user@email.com", Password = "123456" };
+            var result = await _sut.SignInAsync(request);
 
             Assert.Equal(expected: expectedToken, actual: result.Value?.Token);
         }
@@ -59,8 +59,8 @@ namespace TicketManager.Application.Tests.Services
             _authTokenService.Setup(x => x.GenerateFor(It.IsAny<User>())).Returns(expectedToken);
             _mapper.Setup(x => x.Map<AuthUserViewModel>(It.IsAny<User>())).Returns(expectedUserDto);
 
-            var command = new SignInCommand { Email = "user@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(command);
+            var request = new SignInRequest { Email = "user@email.com", Password = "123456" };
+            var result = await _sut.SignInAsync(request);
 
             Assert.Equal(expected: expectedUserDto, actual: result.Value?.User);
         }
@@ -69,8 +69,8 @@ namespace TicketManager.Application.Tests.Services
         public async Task SignInAsync_NullUser_ReturnBadRequestResult()
         {
             _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(null as User));
-            var command = new SignInCommand { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(command);
+            var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
+            var result = await _sut.SignInAsync(request);
             Assert.IsAssignableFrom<BadRequestException>(result.Exception);
         }
 
@@ -78,8 +78,8 @@ namespace TicketManager.Application.Tests.Services
         public async Task SignInAsync_NullUser_ReturnSpecificErrorMessage()
         {
             _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(null as User));
-            var command = new SignInCommand { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(command);
+            var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
+            var result = await _sut.SignInAsync(request);
             Assert.Equal(expected: "Invalid email and/or password.", actual: result.Exception?.Message);
         }
 
@@ -89,8 +89,8 @@ namespace TicketManager.Application.Tests.Services
             var user = new User("User Name", "user@email.com", "abc", "def");
             _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
             _bcrypt.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
-            var command = new SignInCommand { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(command);
+            var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
+            var result = await _sut.SignInAsync(request);
             Assert.IsAssignableFrom<BadRequestException>(result.Exception);
         }
 
@@ -100,8 +100,8 @@ namespace TicketManager.Application.Tests.Services
             var user = new User("User Name", "user@email.com", "abc", "def");
             _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
             _bcrypt.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
-            var command = new SignInCommand { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(command);
+            var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
+            var result = await _sut.SignInAsync(request);
             Assert.Equal(expected: "Invalid email and/or password.", actual: result.Exception?.Message);
         }
     }
