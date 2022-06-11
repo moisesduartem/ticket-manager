@@ -1,28 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TicketManager.Domain.Entities;
 using TicketManager.Domain.Repositories;
 
 namespace TicketManager.Infra.Database.Repositories
 {
-    public class TicketsRepository : ITicketsRepository
+    public class CategoriesRepository : ICategoriesRepository
     {
+        private readonly ILogger<CategoriesRepository> _logger;
         private readonly ApplicationDbContext _context;
 
-        public TicketsRepository(ApplicationDbContext context)
+        public CategoriesRepository(ILogger<CategoriesRepository> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
         }
 
-        public async Task CreateOneAsync(Ticket ticket, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Category>> FindAllAsync(CancellationToken cancellationToken)
         {
-            _context.Tickets.Add(ticket);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
+            _logger.LogInformation("Starting to find all categories in database");
+            var categories = await _context.Categories.AsNoTracking().ToListAsync(cancellationToken);
 
-        public async Task<IEnumerable<Ticket>> FindAllAsync()
-        {
-            var tickets = await _context.Tickets.AsNoTracking().Include(x => x.Author).Include(x => x.Category).ToListAsync();
-            return tickets.AsEnumerable();
+            _logger.LogInformation("Returning categories as a enumerable list");
+            return categories.AsEnumerable();
         }
     }
 }
