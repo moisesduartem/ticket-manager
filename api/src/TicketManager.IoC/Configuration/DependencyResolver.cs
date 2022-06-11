@@ -42,6 +42,7 @@ namespace TicketManager.IoC.Configuration
 
             Services.AddScoped<IUserRepository, UserRepository>();
             Services.AddScoped<ITicketsRepository, TicketsRepository>();
+            Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 
             #endregion
 
@@ -49,6 +50,7 @@ namespace TicketManager.IoC.Configuration
 
             Services.AddScoped<AuthService>();
             Services.AddScoped<TicketsService>();
+            Services.AddScoped<CategoriesService>();
             
             Services.AddScoped<IBcrypt, Bcrypt>();
 
