@@ -1,7 +1,12 @@
+using Serilog;
 using TicketManager.IoC.Extensions;
 using TicketManager.Presentation.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, cfg) => 
+    cfg.WriteTo.Console(outputTemplate: "[{Timestamp:o} {Level:u3}] => {Message:lj} {Properties:j} {NewLine} {Exception}")
+);
 
 builder.Services.ConfigureIoC(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson(options
@@ -9,6 +14,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options
 );
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
