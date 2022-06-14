@@ -1,0 +1,16 @@
+.tickets-list-filter__container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 10px 5px;
+    gap: 15px;
+}
+
+.tickets-list-filter__container__search-input {
+    width: 100%;
+}
+
+.tickets-list-filter__container__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 13px;
+}
