@@ -66,14 +66,7 @@ function GenericDialog() {
       open={isOpen}
     >
       <GenericDialogTitle onClose={handleClose}>{dialogTitle}</GenericDialogTitle>
-      <DialogContent dividers>
-        {dialogComponent}
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Save changes
-        </Button>
-      </DialogActions>
+      {dialogComponent}
     </GenericDialogBootstrap>
   );
 }

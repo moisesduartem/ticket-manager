@@ -12,7 +12,7 @@ function TicketsListFilter() {
   const dispatch = useAppDispatch();
 
   const onClickToAdd = () => {
-    dispatch(dialogActions.open({ title: 'Add Ticket', component: <CreateTicketDialog /> }));
+    dispatch(dialogActions.open({ title: 'Create New Ticket', component: <CreateTicketDialog /> }));
   };
 
   return (

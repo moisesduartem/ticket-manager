@@ -1,4 +1,6 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import {
+  configureStore, ThunkAction, Action, getDefaultMiddleware,
+} from '@reduxjs/toolkit';
 import { authReducer } from '../features/auth/authSlice';
 import { dialogReducer } from '../features/dialog/dialogSlice';
 import { sidebarReducer } from '../features/sidebar/sidebarSlice';
@@ -11,6 +13,7 @@ export const store = configureStore({
     toast: toastReducer,
     sidebar: sidebarReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export type AppDispatch = typeof store.dispatch;
