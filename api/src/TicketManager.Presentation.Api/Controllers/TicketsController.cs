@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicketManager.Application.Services;
+using TicketManager.Shared.DTOs.Tickets;
 
 namespace TicketManager.Presentation.Api.Controllers
 {
@@ -21,6 +22,15 @@ namespace TicketManager.Presentation.Api.Controllers
         {
             var tickets = await _ticketsService.GetAllAsync();
             return Ok(tickets);
-        } 
+        }
+
+        [HttpPost("")]
+        public async Task<IActionResult> Create(CreateTicketRequest request, CancellationToken cancellationToken)
+        {
+            ConfigureAuthor(request);
+
+            await _ticketsService.CreateOneAsync(request, cancellationToken);
+            return StatusCode(StatusCodes.Status201Created);
+        }
     }
 }

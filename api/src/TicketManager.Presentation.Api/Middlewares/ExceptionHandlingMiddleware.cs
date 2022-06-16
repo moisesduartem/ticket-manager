@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using TicketManager.Shared.DTOs.Tickets;
 
 namespace TicketManager.Presentation.Api.Middlewares
 {
@@ -21,7 +22,7 @@ namespace TicketManager.Presentation.Api.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError($"Unexpected error: {ex.Message}");
 
                 var response = context.Response;
                 response.ContentType = "application/json";

@@ -1,8 +1,14 @@
 .tickets-list__content {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 8rem;
+}
+
+.tickets-list__content__filter {
+    width: 60%;
+    margin-bottom: 15px;
 }
 
 .tickets-list__content__table {
@@ -10,8 +16,7 @@
 }
 
 @media (max-width: 1360px) {
-
-    .tickets-list__content__table {
-        width: 100%;
+    .tickets-list__content__table, .tickets-list__content__filter {
+        width: 95%;
     }
 }

@@ -24,7 +24,7 @@ namespace TicketManager.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<Result<SignInViewModel>> SignInAsync(SignInCommand command)
+        public async Task<Result<SignInViewModel>> SignInAsync(SignInRequest command)
         {
             var user = await _userRepository.GetByEmailAsync(command.Email);
 

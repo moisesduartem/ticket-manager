@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OperationResult;
+using System.Security.Claims;
 using TicketManager.Application.Exceptions;
+using TicketManager.Shared.DTOs;
 
 namespace TicketManager.Presentation.Api.Controllers
 {
@@ -26,6 +28,16 @@ namespace TicketManager.Presentation.Api.Controllers
             }
 
             return StatusCode(httpStatusCode, result.Value);
+        }
+
+        protected void ConfigureAuthor(IAuthorRequest request)
+        {
+            request.AuthorId = int.Parse(GetLoggedUserId());
+        }
+
+        protected string GetLoggedUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         private IActionResult HandleException(Exception exception)
