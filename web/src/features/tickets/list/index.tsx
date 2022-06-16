@@ -1,5 +1,4 @@
 import React from 'react';
-import { BasicCard } from '../../../components/basic-card';
 import { TicketsListFilter } from './filter';
 import './styles.css';
 import { TicketsTable } from './table';

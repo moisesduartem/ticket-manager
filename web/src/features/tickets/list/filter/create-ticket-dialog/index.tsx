@@ -16,6 +16,7 @@ import './styles.css';
 import { useAppDispatch } from '../../../../../store/hooks';
 import { toastActions } from '../../../../toast/toastSlice';
 import { dialogActions } from '../../../../dialog/dialogSlice';
+import { ticketsActions } from '../../../ticketsSlice';
 
 const schema = yup.object({
   title: yup.string().label('Title').required().min(12),
@@ -50,6 +51,7 @@ function CreateTicketDialog() {
       await api.post<CreateTicketRequest>('tickets', body);
       dispatch(dialogActions.close());
       dispatch(toastActions.open({ color: 'success', message: 'Ticket successfully created' }));
+      dispatch(ticketsActions.refreshList());
     } catch {
       dispatch(toastActions.open({ color: 'error', message: 'Failed on attempt to create ticket' }));
     }
@@ -62,7 +64,7 @@ function CreateTicketDialog() {
           <TextField
             {...register('title', { required: true })}
             error={Boolean(formState.errors.title)}
-            helperText={formState.errors.title ? formState.errors.title?.message : 'Minimum 12 characters'}
+            helperText={formState.errors.title?.message}
             required
             color="primary"
             label="Title"

@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { api } from '../../../../services/api';
 import { Ticket } from '../../../../domain/entities/ticket';
+import { useAppSelector } from '../../../../store/hooks';
 
 function createData(
   name: string,
@@ -23,6 +24,7 @@ function createData(
 
 function TicketsTable() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const { refreshList: mustRefreshList } = useAppSelector((state) => state.tickets);
 
   const fetchTickets = async () => {
     const { data } = await api.get<Ticket[]>('tickets');
@@ -33,9 +35,15 @@ function TicketsTable() {
     fetchTickets();
   }, []);
 
+  useEffect(() => {
+    if (mustRefreshList) {
+      fetchTickets();
+    }
+  }, [mustRefreshList]);
+
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="simple table">
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>Title</TableCell>
