@@ -4,8 +4,17 @@ import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { BasicCard } from '../../../../components/basic-card';
 import './styles.css';
+import { useAppDispatch } from '../../../../store/hooks';
+import { dialogActions } from '../../../dialog/dialogSlice';
+import { CreateTicketDialog } from './create-ticket-dialog';
 
 function TicketsListFilter() {
+  const dispatch = useAppDispatch();
+
+  const onClickToAdd = () => {
+    dispatch(dialogActions.open({ title: 'Add Ticket', component: <CreateTicketDialog /> }));
+  };
+
   return (
     <div className="tickets-list-filter">
       <BasicCard className="tickets-list-filter__container">
@@ -14,7 +23,7 @@ function TicketsListFilter() {
           <Button variant="contained">
             <SearchIcon />
           </Button>
-          <Button color="primary" variant="contained">
+          <Button onClick={onClickToAdd} color="primary" variant="contained">
             <AddIcon />
           </Button>
         </div>

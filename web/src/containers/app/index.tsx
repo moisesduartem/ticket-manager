@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { GenericDialog } from '../../components/dialog';
 import { Toast } from '../../features/toast';
 import { ApplicationRoutes } from '../../routes';
 import './styles.css';
@@ -13,6 +14,7 @@ function App() {
           <ApplicationRoutes />
         </BrowserRouter>
       </div>
+      <GenericDialog />
     </>
   );
 }
