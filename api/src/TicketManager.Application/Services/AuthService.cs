@@ -27,7 +27,7 @@ namespace TicketManager.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<Result<SignInViewModel>> SignInAsync(SignInRequest request)
+        public async Task<Result<SignInViewModel>> SignInAsync(SignInRequest request, CancellationToken cancellationToken)
         {
 
             using (_logger.BeginScope(new Dictionary<string, object>
@@ -36,7 +36,7 @@ namespace TicketManager.Application.Services
             }))
             {
                 _logger.LogInformation("Retrieving the user by its email");
-                var user = await _userRepository.GetByEmailAsync(request.Email);
+                var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
 
                 _logger.LogInformation("Validating user");
                 if (user == null || !HasValidPassword(user, request.Password))

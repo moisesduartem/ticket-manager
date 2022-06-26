@@ -25,10 +25,13 @@ namespace TicketManager.Infra.Database.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Ticket>> FindAllAsync()
+        public async Task<IEnumerable<Ticket>> FindAllAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Starting to find all tickets in database");
-            var tickets = await _context.Tickets.AsNoTracking().Include(x => x.Author).Include(x => x.Category).ToListAsync();
+            var tickets = await _context.Tickets.AsNoTracking()
+                                                .Include(x => x.Author)
+                                                .Include(x => x.Category)
+                                                .ToListAsync(cancellationToken);
 
             _logger.LogInformation("Returning tickets as a enumerable list");
             return tickets.AsEnumerable();

@@ -13,9 +13,10 @@ namespace TicketManager.Infra.Database.Repositories
             _context = context;
         }
 
-        public Task<User> GetByEmailAsync(string email)
+        public Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            return _context.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Email == email) as Task<User>;
+            return _context.Users.AsNoTracking()
+                                 .FirstOrDefaultAsync(user => user.Email == email, cancellationToken) as Task<User>;
         }
     }
 }
