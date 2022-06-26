@@ -21,7 +21,10 @@ namespace TicketManager.Application.Services
 
         public async Task<IEnumerable<TicketViewModel>> GetAllAsync()
         {
+            _logger.LogInformation("Retrieving all the tickets from its repository");
             var tickets = await _ticketsRepository.FindAllAsync();
+
+            _logger.LogInformation("Returning the mapped result");
             return _mapper.Map<IEnumerable<TicketViewModel>>(tickets);
         }
 

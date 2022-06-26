@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TicketManager.Application.Exceptions;
 using TicketManager.Application.Services;
@@ -17,6 +18,7 @@ namespace TicketManager.Application.Tests.Services
         private readonly AuthService _sut;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<IAuthTokenService> _authTokenService;
+        private readonly Mock<ILogger<AuthService>> _logger;
         private readonly Mock<IBcrypt> _bcrypt;
         private readonly Mock<IMapper> _mapper;
 
@@ -24,9 +26,10 @@ namespace TicketManager.Application.Tests.Services
         {
             _userRepository = new Mock<IUserRepository>();
             _authTokenService = new Mock<IAuthTokenService>();
+            _logger = new Mock<ILogger<AuthService>>();
             _bcrypt = new Mock<IBcrypt>();
             _mapper = new Mock<IMapper>();
-            _sut = new AuthService(_userRepository.Object, _authTokenService.Object, _bcrypt.Object, _mapper.Object);
+            _sut = new AuthService(_logger.Object, _userRepository.Object, _authTokenService.Object, _bcrypt.Object, _mapper.Object);
         }
 
         [Fact]
