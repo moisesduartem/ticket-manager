@@ -23,15 +23,15 @@ namespace TicketManager.Infra.Database
                     id: 1, 
                     name: "John L.", 
                     email: "johnl@email.com", 
-                    hash: "$2a$12$dNMivl8uiVUbJOanAbvggOThv0Psr6oaUEAf7dtgTYFB3x.PCfmr.",
+                    hash: "$2a$12$A77iNnPPdii48qrXVAtEFuiODMov/jw7pDshr0WGFZ9foy5MO9Zbu",
                     salt: "1d8cf748c6156545d92237c8ef115f25",
                     role: UserRole.Admin
                ),
                 new User(
                     id: 2, 
                     name: "George H.", 
-                    email: "georgeh@email.com", 
-                    hash: "$2a$12$mc3HQ1zD.C8AAr/Lf2I29.XB.MJz6n5FLEXUOllaXPt0PdgveXU7C",
+                    email: "georgeh@email.com",
+                    hash: "$2a$12$KvEXEGNvgV9xyOZFxgwqfuckZBwgtAuGlSaLmWxWGPrLe7q59.POu",
                     salt: "ccea7ca67997fc7437b1c19a482143a7",
                     role: UserRole.Regular
                )
