@@ -213,7 +213,7 @@ namespace TicketManager.Infra.Migrations
                             Id = 1,
                             CreatedAt = new DateTime(2022, 6, 5, 15, 14, 14, 804, DateTimeKind.Local).AddTicks(8958),
                             Email = "johnl@email.com",
-                            Hash = "$2a$12$dNMivl8uiVUbJOanAbvggOThv0Psr6oaUEAf7dtgTYFB3x.PCfmr.",
+                            Hash = "$2a$12$A77iNnPPdii48qrXVAtEFuiODMov/jw7pDshr0WGFZ9foy5MO9Zbu",
                             Name = "John L.",
                             Role = 1,
                             Salt = "1d8cf748c6156545d92237c8ef115f25"
@@ -223,7 +223,7 @@ namespace TicketManager.Infra.Migrations
                             Id = 2,
                             CreatedAt = new DateTime(2022, 6, 5, 15, 14, 14, 804, DateTimeKind.Local).AddTicks(8968),
                             Email = "georgeh@email.com",
-                            Hash = "$2a$12$mc3HQ1zD.C8AAr/Lf2I29.XB.MJz6n5FLEXUOllaXPt0PdgveXU7C",
+                            Hash = "$2a$12$KvEXEGNvgV9xyOZFxgwqfuckZBwgtAuGlSaLmWxWGPrLe7q59.POu",
                             Name = "George H.",
                             Role = 0,
                             Salt = "ccea7ca67997fc7437b1c19a482143a7"
