@@ -27,17 +27,18 @@ namespace TicketManager.Application.Tests.Services
         [Fact]
         public async Task GetAllAsync_OnExecuting_CallFindAllAsync()
         {
-            await _sut.GetAllAsync();
-            _ticketsRepository.Verify(x => x.FindAllAsync(), Times.Once);
+            await _sut.GetAllAsync(default);
+            _ticketsRepository.Verify(x => x.FindAllAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
         
         [Fact]
         public async Task GetAllAsync_OnExecuting_MapResults()
         {
             var mockedResults = new List<Ticket> { new Ticket("title", 1, 1) }.AsEnumerable();
-            _ticketsRepository.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(mockedResults));
+            _ticketsRepository.Setup(x => x.FindAllAsync(It.IsAny<CancellationToken>()))
+                              .Returns(Task.FromResult(mockedResults));
             
-            await _sut.GetAllAsync();
+            await _sut.GetAllAsync(default);
 
             _mapper.Verify(x => x.Map<IEnumerable<TicketViewModel>>(It.IsAny<IEnumerable<Ticket>>()), Times.Once);
         }

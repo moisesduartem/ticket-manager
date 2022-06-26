@@ -18,9 +18,9 @@ namespace TicketManager.Presentation.Api.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            var tickets = await _ticketsService.GetAllAsync();
+            var tickets = await _ticketsService.GetAllAsync(cancellationToken);
             return Ok(tickets);
         }
 

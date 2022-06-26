@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Moq;
 using TicketManager.Application.Exceptions;
 using TicketManager.Application.Services;
@@ -17,6 +18,7 @@ namespace TicketManager.Application.Tests.Services
         private readonly AuthService _sut;
         private readonly Mock<IUserRepository> _userRepository;
         private readonly Mock<IAuthTokenService> _authTokenService;
+        private readonly Mock<ILogger<AuthService>> _logger;
         private readonly Mock<IBcrypt> _bcrypt;
         private readonly Mock<IMapper> _mapper;
 
@@ -24,9 +26,10 @@ namespace TicketManager.Application.Tests.Services
         {
             _userRepository = new Mock<IUserRepository>();
             _authTokenService = new Mock<IAuthTokenService>();
+            _logger = new Mock<ILogger<AuthService>>();
             _bcrypt = new Mock<IBcrypt>();
             _mapper = new Mock<IMapper>();
-            _sut = new AuthService(_userRepository.Object, _authTokenService.Object, _bcrypt.Object, _mapper.Object);
+            _sut = new AuthService(_logger.Object, _userRepository.Object, _authTokenService.Object, _bcrypt.Object, _mapper.Object);
         }
 
         [Fact]
@@ -36,13 +39,14 @@ namespace TicketManager.Application.Tests.Services
             var user = new User("User Name", "user@email.com", "abc", "def");
             var userDto = new AuthUserViewModel { Email = user.Email, Name = user.Name, Role = (int)UserRole.Regular };
 
-            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
+            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.FromResult(user));
             _bcrypt.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _authTokenService.Setup(x => x.GenerateFor(It.IsAny<User>())).Returns(expectedToken);
             _mapper.Setup(x => x.Map<AuthUserViewModel>(It.IsAny<User>())).Returns(userDto);
 
             var request = new SignInRequest { Email = "user@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(request);
+            var result = await _sut.SignInAsync(request, default);
 
             Assert.Equal(expected: expectedToken, actual: result.Value?.Token);
         }
@@ -54,13 +58,14 @@ namespace TicketManager.Application.Tests.Services
             var expectedUser = new User("User Name", "user@email.com", "abc", "def");
             var expectedUserDto = new AuthUserViewModel { Email = expectedUser.Email, Name = expectedUser.Name, Role = (int)UserRole.Regular };
 
-            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(expectedUser));
+            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.FromResult(expectedUser));
             _bcrypt.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _authTokenService.Setup(x => x.GenerateFor(It.IsAny<User>())).Returns(expectedToken);
             _mapper.Setup(x => x.Map<AuthUserViewModel>(It.IsAny<User>())).Returns(expectedUserDto);
 
             var request = new SignInRequest { Email = "user@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(request);
+            var result = await _sut.SignInAsync(request, default);
 
             Assert.Equal(expected: expectedUserDto, actual: result.Value?.User);
         }
@@ -68,18 +73,20 @@ namespace TicketManager.Application.Tests.Services
         [Fact]
         public async Task SignInAsync_NullUser_ReturnBadRequestResult()
         {
-            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(null as User));
+            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.FromResult(null as User));
             var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(request);
+            var result = await _sut.SignInAsync(request, default);
             Assert.IsAssignableFrom<BadRequestException>(result.Exception);
         }
 
         [Fact]
         public async Task SignInAsync_NullUser_ReturnSpecificErrorMessage()
         {
-            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(null as User));
+            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.FromResult(null as User));
             var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(request);
+            var result = await _sut.SignInAsync(request, default);
             Assert.Equal(expected: "Invalid email and/or password.", actual: result.Exception?.Message);
         }
 
@@ -87,10 +94,11 @@ namespace TicketManager.Application.Tests.Services
         public async Task SignInAsync_InvalidPassword_ReturnBadRequestResult()
         {
             var user = new User("User Name", "user@email.com", "abc", "def");
-            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
+            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.FromResult(user));
             _bcrypt.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
             var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(request);
+            var result = await _sut.SignInAsync(request, default);
             Assert.IsAssignableFrom<BadRequestException>(result.Exception);
         }
 
@@ -98,10 +106,11 @@ namespace TicketManager.Application.Tests.Services
         public async Task SignInAsync_InvalidPassword_ReturnSpecificErrorMessage()
         {
             var user = new User("User Name", "user@email.com", "abc", "def");
-            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
+            _userRepository.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.FromResult(user));
             _bcrypt.Setup(x => x.Verify(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
             var request = new SignInRequest { Email = "unexistent@email.com", Password = "123456" };
-            var result = await _sut.SignInAsync(request);
+            var result = await _sut.SignInAsync(request, default);
             Assert.Equal(expected: "Invalid email and/or password.", actual: result.Exception?.Message);
         }
     }

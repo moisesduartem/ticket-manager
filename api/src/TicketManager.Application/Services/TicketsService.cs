@@ -19,9 +19,12 @@ namespace TicketManager.Application.Services
             _ticketsRepository = ticketsRepository;
         }
 
-        public async Task<IEnumerable<TicketViewModel>> GetAllAsync()
+        public async Task<IEnumerable<TicketViewModel>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var tickets = await _ticketsRepository.FindAllAsync();
+            _logger.LogInformation("Retrieving all the tickets from its repository");
+            var tickets = await _ticketsRepository.FindAllAsync(cancellationToken);
+
+            _logger.LogInformation("Returning the mapped result");
             return _mapper.Map<IEnumerable<TicketViewModel>>(tickets);
         }
 
