@@ -1,0 +1,17 @@
+version: "3.6"
+
+services:
+  tman-rabbitmq:
+    container_name: tman-rabbitmq
+    image: masstransit/rabbitmq:latest
+    ports:
+     - "5672:5672"
+     - "15672:15672"
+     - "15692:15692"
+  tman-mssql:
+    container_name: tman-mssql
+    build:
+      context: .docker/mssql
+      dockerfile: Dockerfile
+    ports:
+      - "1433:1433"
