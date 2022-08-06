@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: api/src/
+        working-directory: back-end/src/
 
     runs-on: ubuntu-latest
 
