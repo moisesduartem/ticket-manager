@@ -4,7 +4,7 @@ stages:
 
 variables:
   FRONT_END_PATH: 'front-end'
-  BACK_END_PATH: 'back-end/src'
+  BACK_END_PATH: 'back-end'
 
 .base-rules:
   only:
