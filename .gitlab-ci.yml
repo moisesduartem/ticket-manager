@@ -1,0 +1,56 @@
+stages:
+  - build
+  - unit-tests
+
+variables:
+  FRONT_END_PATH: 'front-end'
+  BACK_END_PATH: 'back-end/src'
+
+.base-rules:
+  only:
+    refs:
+      - merge_requests
+    variables:
+      - '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+  when: always
+  allow_failure: false
+
+.base-front-end:
+  extends: [.base-rules]
+  image: node:16.16
+  only:
+    changes:
+      - $FRONT_END_PATH/src/**/*
+      - $FRONT_END_PATH/package.json
+      - .gitlab-ci.yml
+
+.base-back-end:
+  extends: [.base-rules]
+  image: mcr.microsoft.com/dotnet/sdk:6.0
+  only:
+    changes:
+      - $BACK_END_PATH/TicketManager.*/**/*
+      - .gitlab-ci.yml
+
+front-end-build:
+  extends: [.base-front-end]
+  stage: build
+  script:
+    - cd $FRONT_END_PATH
+    - npm install --progress=false 
+    - npm run build
+  
+back-end-build:
+  extends: [.base-back-end]
+  stage: build
+  script:
+    - cd $BACK_END_PATH
+    - dotnet build
+
+back-end-unit-tests:
+  extends: [.base-back-end]
+  needs: [back-end-build]
+  stage: unit-tests
+  script:
+    - cd $BACK_END_PATH
+    - dotnet test --no-restore
