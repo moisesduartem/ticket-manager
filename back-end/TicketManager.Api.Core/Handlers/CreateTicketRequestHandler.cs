@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using MassTransit;
+using FluentResults;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using OperationResult;
-using TicketManager.Contracts;
-using TicketManager.Contracts.Entities;
 using TicketManager.Api.Core.Domain.Entities;
+using TicketManager.Api.Core.Domain.Repositories;
 using TicketManager.Api.Core.Repositories;
 using TicketManager.Api.Core.Requests;
+using TicketManager.Api.Core.Services.Email;
 
 namespace TicketManager.Api.Core.Handlers
 {
@@ -15,22 +14,25 @@ namespace TicketManager.Api.Core.Handlers
     {
         private readonly ILogger<CreateTicketRequestHandler> _logger;
         private readonly IMapper _mapper;
-        private readonly IBus _bus;
         private readonly ITicketsRepository _ticketsRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateTicketRequestHandler(
             ILogger<CreateTicketRequestHandler> logger,
-            IBus bus,
             IMapper mapper,
             ITicketsRepository ticketsRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _bus = bus;
             _mapper = mapper;
             _ticketsRepository = ticketsRepository;
             _userRepository = userRepository;
+            _emailSender = emailSender;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(CreateTicketRequest request, CancellationToken cancellationToken)
@@ -47,30 +49,36 @@ namespace TicketManager.Api.Core.Handlers
                 var ticket = _mapper.Map<Ticket>(request);
 
                 _logger.LogInformation("Attempting to create a new ticket");
-                await _ticketsRepository.CreateOneAsync(ticket, cancellationToken);
+                await Task.WhenAll(
+                    _ticketsRepository.InsertOneAsync(ticket, cancellationToken),
+                    _unitOfWork.SaveChangesAsync(cancellationToken)
+                );
 
                 _logger.LogInformation("Successfully created a new ticket with Id={TicketId}", ticket.Id);
-                _logger.LogInformation("Getting author data by its id");
-                var author = await _userRepository.GetByIdAsync(request.AuthorId, cancellationToken);
+                
+                _logger.LogInformation("Getting author email and name by Id={AuthorId}", request.AuthorId);
+                var author = await _userRepository.GetTicketAuthorByIdAsync(request.AuthorId, cancellationToken);
+
+                var email = new EmailInformation(
+                        to: author.Email,
+                        subject: "Ticket successfully created!",
+                        templatePath: "successfully-created-a-new-ticket.cshtml",
+                        templateModel: new
+                        {
+                            AuthorName = author.Name.Split(" ")[0],
+                            TicketId = ticket.Id
+                        });
 
                 _logger.LogInformation(
-                    "Publishing event to notify the ticket creation to Email={AuthorEmail}",
-                    author.Email
-                );
-                var command = GetSendEmailCommand(ticket, author);
-                await _bus.Publish(command, cancellationToken);
+                    "Sending TicketId={TicketId} creation email to Email={AuthorEmail}",
+                    ticket.Id,
+                    author.Email);
+                await _emailSender.SendAsync(email, cancellationToken);
 
-                return Result.Success();
+                _logger.LogInformation("Email successfully sent to Email={AuthorEmail}", author.Email);
+
+                return Result.Ok();
             }
-        }
-
-        private SendTicketCreationEmail GetSendEmailCommand(Ticket ticket, User author)
-        {
-            return new SendTicketCreationEmail
-            {
-                TicketId = ticket.Id,
-                Author = new TicketAuthor { Id = author.Id, Name = author.Name, Email = author.Email },
-            };
         }
     }
 }

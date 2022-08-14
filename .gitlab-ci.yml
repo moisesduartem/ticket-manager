@@ -7,30 +7,27 @@ variables:
   BACK_END_PATH: 'back-end'
 
 .base-rules:
-  only:
-    refs:
-      - merge_requests
-    variables:
-      - '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
   when: always
   allow_failure: false
 
 .base-front-end:
   extends: [.base-rules]
   image: node:16.16
-  only:
-    changes:
-      - $FRONT_END_PATH/src/**/*
-      - $FRONT_END_PATH/package.json
-      - .gitlab-ci.yml
+  rules:
+    - changes:
+        - $FRONT_END_PATH/src/**/*
+        - $FRONT_END_PATH/package.json
+        - .gitlab-ci.yml
 
 .base-back-end:
   extends: [.base-rules]
   image: mcr.microsoft.com/dotnet/sdk:6.0
-  only:
-    changes:
-      - $BACK_END_PATH/TicketManager.*/**/*
-      - .gitlab-ci.yml
+  rules:
+    - changes:
+        - $BACK_END_PATH/TicketManager.*/**/*
+        - .gitlab-ci.yml
 
 front-end-build:
   extends: [.base-front-end]

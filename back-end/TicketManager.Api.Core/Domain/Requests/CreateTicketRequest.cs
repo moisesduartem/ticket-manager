@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OperationResult;
+﻿using FluentResults;
+using MediatR;
 
 namespace TicketManager.Api.Core.Requests
 {

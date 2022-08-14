@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OperationResult;
+﻿using FluentResults;
+using MediatR;
 using TicketManager.Api.Core.Domain.DTOs.Auth;
 
 namespace TicketManager.Api.Core.Requests

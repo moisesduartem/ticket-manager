@@ -2,14 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TicketManager.Api.Core.Services;
-using TicketManager.Api.Infra.Security.Services;
+using TicketManager.Api.Core.Services.Authentication;
 
-namespace TicketManager.Api.Infra.Security.Extensions
+namespace TicketManager.Api.Infra.Services
 {
-    internal static class ServiceCollectionExtension
+    internal static class JWTExtensions
     {
-        public static void AddJsonWebTokenConfiguration(this IServiceCollection services, string jwtSecret)
+        public static void AddJWTConfiguration(this IServiceCollection services, string jwtSecret)
         {
             var secret = Encoding.ASCII.GetBytes(jwtSecret);
 

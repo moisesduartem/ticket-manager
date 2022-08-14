@@ -2,9 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using TicketManager.Api.Core.Domain.Entities;
-using TicketManager.Api.Core.Services;
+using TicketManager.Api.Core.Services.Authentication;
 
-namespace TicketManager.Api.Infra.Security.Services
+namespace TicketManager.Api.Infra.Services
 {
     internal class JWTTokenGenerator : IAuthenticationTokenGenerator
     {

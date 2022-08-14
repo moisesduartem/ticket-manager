@@ -28,6 +28,12 @@ namespace TicketManager.Api.Core.Handlers
             _logger.LogInformation("Getting all tickets");
             var tickets = await _ticketsRepository.FindAllAsync(cancellationToken);
 
+            if (!tickets.Any())
+            {
+                _logger.LogInformation("Zero results, returning an empty list");
+                return Enumerable.Empty<TicketDTO>();
+            }
+
             _logger.LogInformation("Mapping tickets results, Total={Count}", tickets.Count());
             return _mapper.Map<IEnumerable<TicketDTO>>(tickets);
         }
