@@ -16,13 +16,10 @@ namespace TicketManager.Api.Infra.Database.Repositories
             _context = context;
         }
 
-        public async Task CreateOneAsync(Ticket ticket, CancellationToken cancellationToken)
+        public async Task InsertOneAsync(Ticket ticket, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Adding a new ticket to the database context");
-            _context.Tickets.Add(ticket);
-
-            _logger.LogInformation("Saving the changes");
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.Tickets.AddAsync(ticket);
         }
 
         public async Task<IEnumerable<Ticket>> FindAllAsync(CancellationToken cancellationToken)

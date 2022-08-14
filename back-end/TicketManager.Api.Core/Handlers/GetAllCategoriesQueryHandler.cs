@@ -22,8 +22,14 @@ namespace TicketManager.Api.Core.Handlers
 
         public async Task<IEnumerable<CategoryDTO>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Calling the repository method to get all categories");
+            _logger.LogInformation("Getting all ticket categories");
             var categories = await _categoriesRepository.FindAllAsync(cancellationToken);
+
+            if (!categories.Any())
+            {
+                _logger.LogInformation("Zero results, returning an empty list");
+                return Enumerable.Empty<CategoryDTO>();
+            }
 
             _logger.LogInformation("Mapping & returning categories, Total={Count}", categories.Count());
             return _mapper.Map<IEnumerable<CategoryDTO>>(categories);

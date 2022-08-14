@@ -1,6 +1,6 @@
 ﻿using TicketManager.Api.Core.Utilities;
 
-namespace TicketManager.Api.Infra.Utilities
+namespace TicketManager.Api.Infra.Services
 {
     internal class Bcrypt : IBcrypt
     {

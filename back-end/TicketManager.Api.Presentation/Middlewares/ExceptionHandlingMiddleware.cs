@@ -21,7 +21,7 @@ namespace TicketManager.Api.Presentation.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unexpected error: {ex.Message}");
+                _logger.LogCritical("Unexpected error: {Message}", ex.Message);
 
                 var response = context.Response;
                 response.ContentType = "application/json";

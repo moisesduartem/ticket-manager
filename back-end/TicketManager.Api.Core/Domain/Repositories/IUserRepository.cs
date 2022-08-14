@@ -1,4 +1,5 @@
-﻿using TicketManager.Api.Core.Domain.Entities;
+﻿using TicketManager.Api.Core.Domain.DTOs.Tickets;
+using TicketManager.Api.Core.Domain.Entities;
 
 namespace TicketManager.Api.Core.Repositories
 {
@@ -6,5 +7,6 @@ namespace TicketManager.Api.Core.Repositories
     {
         Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken);
         Task<User> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task<TicketAuthorDTO> GetTicketAuthorByIdAsync(int id, CancellationToken cancellationToken);
     }
 }

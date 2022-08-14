@@ -1,4 +1,4 @@
-﻿namespace TicketManager.EmailWorker.Options
+﻿namespace TicketManager.Api.Infra.IoC.Options
 {
     public class EmailSenderOptions
     {

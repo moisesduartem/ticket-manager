@@ -14,7 +14,7 @@ namespace TicketManager.Api.Infra.IoC
             dependencyResolver.ConfigureAutoMapper();
             dependencyResolver.ConfigureFluentValidation();
             dependencyResolver.ConfigureMediatR();
-            dependencyResolver.ConfigureMessageBroker();
+            dependencyResolver.ConfigureFluentEmail();
         }
     }
 }

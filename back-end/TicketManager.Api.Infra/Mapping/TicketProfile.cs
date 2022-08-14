@@ -12,7 +12,7 @@ namespace TicketManager.IoC.Mapping
             CreateMap<CreateTicketRequest, Ticket>();
 
             CreateMap<Ticket, TicketDTO>();
-            CreateMap<User, AuthorDTO>();
+            CreateMap<User, TicketAuthorDTO>();
             CreateMap<Category, CategoryDTO>();
         }
     }

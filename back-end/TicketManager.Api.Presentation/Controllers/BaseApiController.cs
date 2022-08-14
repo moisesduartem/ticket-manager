@@ -1,35 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OperationResult;
+﻿using FluentResults;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using TicketManager.Api.Core.Exceptions;
 using TicketManager.Api.Core.Requests;
 
 namespace TicketManager.Api.Presentation.Controllers
 {
     public abstract class BaseApiController : ControllerBase
     {
-        protected IActionResult HandleResult<TResponse>(Result<TResponse> result)
-            where TResponse : class
-        {
-            if (result.Exception is ApplicationLayerException)
-            {
-                return HandleException(result.Exception);
-            }
-
-            return Ok(result.Value);
-        }
-
-        protected IActionResult HandleResult<TResponse>(Result<TResponse> result, int httpStatusCode)
-            where TResponse : class
-        {
-            if (result.Exception is ApplicationLayerException)
-            {
-                return HandleException(result.Exception);
-            }
-
-            return StatusCode(httpStatusCode, result.Value);
-        }
-
         protected void ConfigureAuthor(IAuthorRequest request)
         {
             request.AuthorId = int.Parse(GetLoggedUserId());
@@ -40,16 +17,19 @@ namespace TicketManager.Api.Presentation.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        private IActionResult HandleException(Exception exception)
+        protected IActionResult Created(object content)
         {
-            var errorResponse = new { Message = exception.Message };
+            return StatusCode(StatusCodes.Status201Created, content);
+        }
 
-            return exception switch
-            {
-                BadRequestException => BadRequest(errorResponse),
-                NotFoundException => NotFound(errorResponse),
-                _ => StatusCode(StatusCodes.Status500InternalServerError, errorResponse)
-            };
+        protected IActionResult Created()
+        {
+            return StatusCode(StatusCodes.Status201Created);
+        }
+
+        protected string GetErrorMessage<T>(Result<T> result) where T : class
+        {
+            return result.Errors.First().Message;
         }
     }
 }

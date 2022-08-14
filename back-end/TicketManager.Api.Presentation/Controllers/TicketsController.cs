@@ -5,7 +5,7 @@ using TicketManager.Api.Core.Requests;
 
 namespace TicketManager.Api.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tickets")]
     [ApiController]
     [Authorize]
     public class TicketsController : BaseApiController
@@ -30,8 +30,15 @@ namespace TicketManager.Api.Presentation.Controllers
             ConfigureAuthor(request);
             
             await _mediator.Send(request, cancellationToken);
-            
-            return StatusCode(StatusCodes.Status201Created);
+
+            return Created();
+        }
+
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
+        {
+            var categories = await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
+            return Ok(categories);
         }
     }
 }

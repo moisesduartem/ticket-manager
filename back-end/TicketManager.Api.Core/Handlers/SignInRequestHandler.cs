@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
+using FluentResults;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using OperationResult;
 using TicketManager.Api.Core.Domain.DTOs.Auth;
 using TicketManager.Api.Core.Domain.Entities;
-using TicketManager.Api.Core.Exceptions;
 using TicketManager.Api.Core.Repositories;
 using TicketManager.Api.Core.Requests;
-using TicketManager.Api.Core.Services;
+using TicketManager.Api.Core.Services.Authentication;
 using TicketManager.Api.Core.Utilities;
 
 namespace TicketManager.Api.Core.Handlers
@@ -42,7 +41,7 @@ namespace TicketManager.Api.Core.Handlers
                 _logger.LogInformation("Validating user with Email={UserEmail}", request.Email);
                 if (user == null || !HasValidPassword(user, request.Password))
                 {
-                    return Result.Error<SignInDTO>(new BadRequestException("Invalid email and/or password."));
+                    return Result.Fail("Invalid email and/or password.");
                 }
 
                 _logger.LogInformation("Generating user auth token for user with Id={UserId}", user.Id);
@@ -51,7 +50,7 @@ namespace TicketManager.Api.Core.Handlers
                 _logger.LogInformation("Mapping result for user with Id={UserId}", user.Id);
                 var userDto = _mapper.Map<AuthUserDTO>(user);
 
-                return Result.Success(new SignInDTO { Token = token, User = userDto });
+                return Result.Ok(new SignInDTO { Token = token, User = userDto });
             }
         }
 

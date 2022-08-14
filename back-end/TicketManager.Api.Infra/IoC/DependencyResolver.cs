@@ -1,17 +1,20 @@
 ﻿using FluentValidation.AspNetCore;
-using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Net.Mail;
+using TicketManager.Api.Core.Domain.Repositories;
 using TicketManager.Api.Core.Handlers;
+using TicketManager.Api.Core.Repositories;
+using TicketManager.Api.Core.Services.Email;
 using TicketManager.Api.Core.Utilities;
 using TicketManager.Api.Core.Validators;
-using TicketManager.Api.Core.Repositories;
 using TicketManager.Api.Infra.Database;
 using TicketManager.Api.Infra.Database.Repositories;
-using TicketManager.Api.Infra.Security.Extensions;
-using TicketManager.Api.Infra.Utilities;
+using TicketManager.Api.Infra.IoC.Options;
+using TicketManager.Api.Infra.Services;
 
 namespace TicketManager.Api.Infra.IoC
 {
@@ -26,24 +29,10 @@ namespace TicketManager.Api.Infra.IoC
             Services = services;
         }
 
-        public void ConfigureMessageBroker()
-        {
-            Services.AddMassTransit(x =>
-            {
-                x.SetKebabCaseEndpointNameFormatter();
-
-                x.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host(Configuration.GetConnectionString("RabbitMq"));
-                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
-                });
-            });
-        }
-
         public void ConfigureAuthentication()
         {
             string jwtSecret = Configuration["Jwt:Secret"];
-            Services.AddJsonWebTokenConfiguration(jwtSecret);
+            Services.AddJWTConfiguration(jwtSecret);
         }
 
         public void ConfigureDatabase()
@@ -54,24 +43,17 @@ namespace TicketManager.Api.Infra.IoC
 
         public void ConfigureDependencyInjection()
         {
-            #region Data Access Layer
-
             Services.AddScoped<IUserRepository, UserRepository>();
             Services.AddScoped<ITicketsRepository, TicketsRepository>();
             Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
-
-            #endregion
-
-            #region Application Layer
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             Services.AddScoped<SignInRequestHandler>();
             Services.AddScoped<GetAllTicketsQueryHandler>();
             Services.AddScoped<GetAllCategoriesQueryHandler>();
-            
-            Services.AddScoped<IBcrypt, Bcrypt>();
 
-            #endregion
-
+            Services.AddSingleton<IBcrypt, Bcrypt>();
+            Services.AddSingleton<IEmailSender, EmailSender>();
         }
 
         public void ConfigureAutoMapper()
@@ -87,6 +69,22 @@ namespace TicketManager.Api.Infra.IoC
         public void ConfigureMediatR()
         {
             Services.AddMediatR(typeof(SignInRequestHandler));
+        }
+
+        public void ConfigureFluentEmail()
+        {
+            var emailSenderOptions = Configuration.GetSection("EmailSender").Get<EmailSenderOptions>();
+
+            Services.AddFluentEmail(emailSenderOptions.FromEmail)
+                            .AddRazorRenderer()
+                            .AddSmtpSender(new SmtpClient(emailSenderOptions.SMTPHost, emailSenderOptions.SMTPPort)
+                            {
+                                Credentials = new NetworkCredential(
+                                    userName: emailSenderOptions.Username,
+                                    password: emailSenderOptions.Password),
+                                EnableSsl = true
+
+                            });
         }
     }
 }

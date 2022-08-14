@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { LoadingButton } from '@mui/lab';
 import { Category } from '../../../../../domain/entities/category';
 import { api } from '../../../../../services/api';
 import { CreateTicketRequest } from '../../requests';
@@ -25,6 +26,7 @@ const schema = yup.object({
 }).required();
 
 function CreateTicketDialog() {
+  const [isWaitingCreationResponse, setWaitingCreationResponse] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const { handleSubmit, formState, register } = useForm<CreateTicketRequest>({
     mode: 'onChange',
@@ -47,6 +49,8 @@ function CreateTicketDialog() {
   }, []);
 
   const onSubmit = async (body: CreateTicketRequest) => {
+    setWaitingCreationResponse(true);
+
     try {
       await api.post<CreateTicketRequest>('tickets', body);
       dispatch(dialogActions.close());
@@ -54,6 +58,8 @@ function CreateTicketDialog() {
       dispatch(ticketsActions.refreshList());
     } catch {
       dispatch(toastActions.open({ color: 'error', message: 'Failed on attempt to create ticket' }));
+    } finally {
+      setWaitingCreationResponse(false);
     }
   };
 
@@ -109,7 +115,14 @@ function CreateTicketDialog() {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button type="submit" disabled={!formState.isValid} autoFocus>Create</Button>
+        <LoadingButton
+          loading={isWaitingCreationResponse}
+          type="submit"
+          disabled={!formState.isValid}
+          autoFocus
+        >
+          Create
+        </LoadingButton>
       </DialogActions>
     </form>
   );

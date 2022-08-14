@@ -1,6 +1,6 @@
-﻿namespace TicketManager.Contracts.Entities
+﻿namespace TicketManager.Api.Core.Domain.DTOs.Tickets
 {
-    public class TicketAuthor
+    public class TicketAuthorDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

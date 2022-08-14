@@ -17,6 +17,15 @@ namespace TicketManager.Api.Presentation.Controllers
 
         [HttpPost("login")]
         public async Task<IActionResult> SignIn(SignInRequest request, CancellationToken cancellationToken)
-            => HandleResult(await _mediator.Send(request, cancellationToken), httpStatusCode: 201);
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+
+            if (result.IsFailed)
+            {
+                return BadRequest(new { Message = GetErrorMessage(result) });
+            }
+
+            return Created(result.Value);
+        }
     }
 }
